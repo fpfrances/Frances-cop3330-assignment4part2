@@ -1,4 +1,4 @@
-#COP3330 - Assignment 4: To Do List
+COP3330 - Assignment 4: To Do List
 
                                            CATALOG
 
