@@ -1,0 +1,186 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AddItemCtrl{
+-TextField name
+-LocalDate date
+-TextField description
++static Stage AddItemStage
+-Stage dialogStage
++void AddItemCtrl()
++void setDialogStage(Stage)
+-boolean isInputValid()
+void submitButtonClicked(ActionEvent)
+void cancelButtonClicked(ActionEvent)
+}
+
+class EditItemCtrl{
+-TextField name
+-LocalDate date
+-TextField description
++static Stage EditItemStage
+-Stage dialogStage
++void EditItemCtrl()
++void setDialogStage(Stage)
+-boolean isInputValid()
+void submitButtonClicked(ActionEvent)
+void cancelButtonClicked(ActionEvent)
+}
+
+class AddListCtrl{
+-TextField newListName
++static Stage AddListStage
+-Stage dialogStage
++AddListCtrl()
++void setDialogStage(Stage)
+-isInputValid()
+void submitButtonClicked(ActionEvent)
+void cancelButtonClicked(ActionEvent)
+}
+
+class RenameListCtrl{
+-TextField newListName
++static Stage RenameListStage
+-Stage dialogStage
++RenameListCtrl()
++void setDialogStage(Stage)
+-isInputValid()
+void submitButtonClicked(ActionEvent)
+void cancelButtonClicked(ActionEvent)
+}
+
+class ListCatalogCtrl{
++static Stage
+-Stage dialogStage
+-static ToDoList selected
+-static ObservableList<ToDoList> catalog
+-TableView<ToDoList> tableView
+-TableColumn<ToDoList,String> nameColumn
++ListCatalogCtrl()
++ListCatalogCtrl (Stage)
++static ToDoList getSelected()
+-void updateSelected(ToDoList)
+void renameButtonClicked (ActionEvent action)
+void newButtonClicked (ActionEvent action)
+void deleteButtonClicked (ActionEvent action)
+void onOpenButtonClicked(ActionEvent action)
+void memeButtonClicked (ActionEvent action)
+}
+
+class ListOptCtrl{
++static Stage ListOptCtrl
+-Stage dialogStage
+-TextArea listName
+-TableView<ToDoItem> table
+-TableColumn listNames
+-CheckBox completed
+-TextArea itemDescription
+-TextArea itemDate
+-TextArea itemName
+-static ToDoItem selected
+-ObservableList<ToDoItem> list
+-TableView<ToDoItem> tableView;
+-TableColumn<ToDoItem,String> nameColumn;
++ListOptCtrl()
++void setStage(Stage)
++ToDoItem getSelected()
+-void showItem(ToDoItem)
+-void completeBoxChecked(ActionEvent)
+-void deleteButtonClicked(ActionEvent)
+-void newButtonClicked(ActionEvent)
+-void editButtonClicked(ActionEvent)
+-void allButtonClicked(ActionEvent)
+-void incompleteButtonClicked(ActionEvent)
+-void completedButtonClicked(ActionEvent)
+-void returnToListsButtonClicked(ActionEvent)
+-void itemClicked(ActionEvent)
+}
+
+class ToDoItem{
+-SimpleStringProperty name
+-SimpleStringProperty description
+-LocalDate date
+-SimpleBooleanProperty complete
++String getName()
++void setName(String)
++String getDate()
++void setDate(LocalDate)
++String getDesc()
++void setDesc(String)
++String isComplete()
++void setComplete(boolean)
++void swapComplete()
++ToDoItem(String, String, String)
+}
+
+class ToDoList{
+-SimpleStringProperty name
+-LinkedList<ToDoItem> list
+-SimpleStringProperty size
++String getName()
++void setName(String)
++String getSize()
++LinkedList<ToDoItem> getList
++ToDoList(String)
++void addItem(ToDoItem)
++void removeItem(ToDoItem)
++void editItem(ToDoItem,ToDoItem)
+-void updateSize()
+}
+
+class Catalog{
+-LinkedList<String> allListNames
+-LinkedList<ToDoList> catalog
+-int numberOfLists
++void addList(String)
++void removeList(String)
++void editListName(String, String)
++LinkedList<String> getCatalog
+-void updateSize()
++void LoadLists(ArrayList<String>)
++void addList(ToDoList)
++void deleteList(ToDoList)
++void editList(String,String)
++Catalog()
+}
+
+class ToDo{
++void start()
+}
+
+class Parser{
++void parseToListFile(ToDoList)
++void parseToCatalogFile(Catalog)
++LinkedList<ToDoItem> loadList
++LinkedList<ToDoList> loadCatalog
++LocalDate parseDate()
+-LinkedList<ToDoItem> jsonReadList
+-LinkedList<ToDoList> jsonReadCatalog
+}
+
+class FileHandler{
++File getDirectory()
+-static void createListDirectory()
++static BufferedReader getReader(String)
++static BufferedWriter getWriter(String)
++static void writeToFile(String, String)
++static File getOutputFile(String)
+}
+
+note "Utility" as 2
+Parser .. 2
+2 .. FileHandler
+
+Catalog .. ToDoList
+ToDoList .. ToDoItem
+
+
+note "Controllers" as 1
+AddItemCtrl -> 1
+AddListCtrl --> 1
+EditItemCtrl --> 1
+1 <-- ListCatalogCtrl
+1 <-- ListOptCtrl
+1 <- RenameListCtrl
+
+@enduml
